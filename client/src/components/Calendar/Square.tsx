@@ -3,7 +3,7 @@ import { useState } from "react";
 import { SquareObject } from "../../types/ComponentTypes";
 
 type SquareProps = {
-  squareObject: SquareObject;
+  squareObject: SquareObject | null;
   dayList: Array<SquareObject>;
   setDayList: (a: Array<SquareObject>) => void;
 };
@@ -13,8 +13,11 @@ function Square({ squareObject, dayList, setDayList }: SquareProps) {
     <Button
       width={150}
       height={150}
-      colorScheme={squareObject.color}
+      colorScheme={squareObject == null ? "blackAlpha" : squareObject.color}
       onClick={() => {
+        if (squareObject == null) {
+          return;
+        }
         switch (squareObject.color) {
           case "blackAlpha":
             squareObject.color = "green";
@@ -28,7 +31,7 @@ function Square({ squareObject, dayList, setDayList }: SquareProps) {
         setDayList(structuredClone(dayList));
       }}
     >
-      <Text>{squareObject.dayNumber}</Text>
+      <Text>{squareObject == null ? null : squareObject.dayNumber}</Text>
     </Button>
   );
 }

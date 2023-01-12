@@ -10,22 +10,22 @@ function createRowList(
   year: number,
   month: number,
   dayList: Array<SquareObject>
-): Array<Array<SquareObject>> {
+): Array<Array<SquareObject | null>> {
   const startingWeekdayNumber = getWeekdayNumber(year, month, 1);
-  const dayListWithBlanks = Array.from(dayList);
+  const dayListWithNulls: Array<SquareObject | null> = Array.from(dayList);
   for (let i = 0; i < startingWeekdayNumber; i++) {
-    dayListWithBlanks.unshift({ dayNumber: null, color: "blackAlpha" });
+    dayListWithNulls.unshift(null);
   }
-  while (dayListWithBlanks.length < 35) {
-    dayListWithBlanks.push({ dayNumber: null, color: "blackAlpha" });
+  while (dayListWithNulls.length < 35) {
+    dayListWithNulls.push(null);
   }
 
   let rowList = [];
-  let dayListWithBlanksIdx = 0;
+  let dayListWithNullsIdx = 0;
   for (let r = 0; r < 5; r++) {
     let row = [];
     for (let c = 0; c < 7; c++) {
-      row.push(dayListWithBlanks[dayListWithBlanksIdx++]);
+      row.push(dayListWithNulls[dayListWithNullsIdx++]);
     }
     rowList.push(row);
   }
