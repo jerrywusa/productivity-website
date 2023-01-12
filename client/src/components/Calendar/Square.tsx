@@ -1,30 +1,34 @@
-import { Card, CardBody, Text, Button } from "@chakra-ui/react";
+import { Text, Button } from "@chakra-ui/react";
 import { useState } from "react";
-type SquareProps = {
-  day: number | null;
-};
-function Square({ day }: SquareProps) {
-  const [color, setColor] = useState("blackAlpha");
+import { SquareObject } from "../../types/ComponentTypes";
 
+type SquareProps = {
+  squareObject: SquareObject;
+  dayList: Array<SquareObject>;
+  setDayList: (a: Array<SquareObject>) => void;
+};
+
+function Square({ squareObject, dayList, setDayList }: SquareProps) {
   return (
     <Button
       width={150}
       height={150}
-      colorScheme={color}
+      colorScheme={squareObject.color}
       onClick={() => {
-        switch (color) {
+        switch (squareObject.color) {
           case "blackAlpha":
-            setColor("green");
+            squareObject.color = "green";
             break;
           case "green":
-            setColor("red");
+            squareObject.color = "red";
             break;
           case "red":
-            setColor("blackAlpha");
+            squareObject.color = "blackAlpha";
         }
+        setDayList(structuredClone(dayList));
       }}
     >
-      <Text>{day}</Text>
+      <Text>{squareObject.dayNumber}</Text>
     </Button>
   );
 }

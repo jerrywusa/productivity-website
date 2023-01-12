@@ -1,87 +1,72 @@
 import Square from "./Square";
 import Flexbox from "flexbox-react";
+import { Card, Text } from "@chakra-ui/react";
+import { SquareObject } from "../../types/ComponentTypes";
+import { getWeekdayNumber, weekdayNames } from "../../utils/Utils";
+import { uid } from "uid";
 
-// month 0 == Jan, 1 == Feb, 2 == March, etc
-function getDaysInMonth(year: number, month: number): number {
-  return new Date(year, month + 1, 0).getDate();
+// rowlist is used to generate calendar Square.tsx
+function createRowList(
+  year: number,
+  month: number,
+  dayList: Array<SquareObject>
+): Array<Array<SquareObject>> {
+  const startingWeekdayNumber = getWeekdayNumber(year, month, 1);
+  const dayListWithBlanks = Array.from(dayList);
+  for (let i = 0; i < startingWeekdayNumber; i++) {
+    dayListWithBlanks.unshift({ dayNumber: null, color: "blackAlpha" });
+  }
+  while (dayListWithBlanks.length < 35) {
+    dayListWithBlanks.push({ dayNumber: null, color: "blackAlpha" });
+  }
+
+  let rowList = [];
+  let dayListWithBlanksIdx = 0;
+  for (let r = 0; r < 5; r++) {
+    let row = [];
+    for (let c = 0; c < 7; c++) {
+      row.push(dayListWithBlanks[dayListWithBlanksIdx++]);
+    }
+    rowList.push(row);
+  }
+  return rowList;
 }
-
-// 0 == sunday, 1 == Monday, etc
-function getWeekdayNumber(year: number, month: number, day: number): number {
-  return new Date(year, month, day).getDay();
-}
-
-// example: getWeekday(2023, 0, 1) == Sunday, because 2023 jan 01 is a Sunday
-function getWeekdayName(year: number, month: number, day: number): string {
-  let d = getWeekdayNumber(year, month, day);
-  return weekdayNames[d];
-}
-
-// example: 0 == January, 1 == February, etc
-function getMonthName(month: number): string {
-  return monthNames[month];
-}
-
-const monthNames = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
-const weekdayNames = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-];
 
 type CalendarProps = {
   year: number;
   month: number;
+  dayList: Array<SquareObject>;
+  setDayList: (a: Array<SquareObject>) => void;
 };
 
-function Calendar({ year, month }: CalendarProps) {
-  const startingWeekdayNumber = getWeekdayNumber(year, month, 1);
-  const maxDayInMonth = getDaysInMonth(year, month);
-  let dayList = [];
-  for (let i = 0; i < startingWeekdayNumber; i++) {
-    dayList.push(null);
-  }
-  for (let i = 1; i <= maxDayInMonth; i++) {
-    dayList.push(i);
-  }
-  while (dayList.length < 35) {
-    dayList.push(null);
-  }
-
-  let rowList = [];
-  let dayListIdx = 0;
-  for (let r = 0; r < 5; r++) {
-    let row = [];
-    for (let c = 0; c < 7; c++) {
-      row.push(dayList[dayListIdx++]);
-    }
-    rowList.push(row);
-  }
+function Calendar({ year, month, dayList, setDayList }: CalendarProps) {
+  let rowList = createRowList(year, month, dayList);
 
   return (
     <Flexbox flexDirection="column">
+      <Flexbox flexDirection="row">
+        {weekdayNames.map((weekdayName) => (
+          <Card
+            width={150}
+            align="center"
+            margin="2px"
+            color="black"
+            variant="unstyled"
+          >
+            <Text>{weekdayName}</Text>
+          </Card>
+        ))}
+      </Flexbox>
       {rowList.map((row) => (
         <Flexbox flexDirection="row">
-          {row.map((day) => (
+          {row.map((squareObject) => (
             <Flexbox margin="2px">
-              <Square day={day} />
+              <Square
+                key={uid()}
+                squareObject={squareObject}
+                dayList={dayList}
+                setDayList={setDayList}
+              />
             </Flexbox>
           ))}
         </Flexbox>
