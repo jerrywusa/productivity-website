@@ -19,10 +19,10 @@ function createDayList(year: number, month: number) {
 
 function App() {
   let date = new Date();
-  const currMonth = date.getMonth();
-  const currYear = date.getFullYear();
+  const [year, setYear] = useState<number>(date.getFullYear());
+  const [month, setMonth] = useState<number>(date.getMonth());
   const [dayList, setDayList] = useState<Array<SquareObject>>(
-    createDayList(currYear, currMonth)
+    createDayList(year, month)
   );
 
   return (
@@ -33,8 +33,10 @@ function App() {
             path="/"
             element={
               <CalendarPage
-                year={currYear}
-                month={currMonth}
+                year={year}
+                setYear={setYear}
+                month={month}
+                setMonth={setMonth}
                 dayList={dayList}
                 setDayList={setDayList}
               />

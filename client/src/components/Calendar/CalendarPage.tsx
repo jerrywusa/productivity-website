@@ -1,7 +1,7 @@
 import { CalendarYearMonthColor, SquareObject } from "../../types/Types";
 import Calendar from "./Calendar";
 import { getMonthName } from "../../utils/Utils";
-import { Heading, Highlight, Grid, GridItem } from "@chakra-ui/react";
+import { Heading, Highlight, Grid, GridItem, Button } from "@chakra-ui/react";
 
 const yearMonthColors: Array<CalendarYearMonthColor> = [
   { yearColor: "yellow.100", monthColor: "red.100" },
@@ -20,12 +20,21 @@ const yearMonthColors: Array<CalendarYearMonthColor> = [
 
 type CalendarProps = {
   year: number;
+  setYear: (a: number) => void;
   month: number;
+  setMonth: (a: number) => void;
   dayList: Array<SquareObject>;
   setDayList: (a: Array<SquareObject>) => void;
 };
 
-function CalendarPage({ year, month, dayList, setDayList }: CalendarProps) {
+function CalendarPage({
+  year,
+  setYear,
+  month,
+  setMonth,
+  dayList,
+  setDayList,
+}: CalendarProps) {
   return (
     <Grid
       templateAreas={`"cal rightPanel"`}
@@ -70,6 +79,26 @@ function CalendarPage({ year, month, dayList, setDayList }: CalendarProps) {
             {getMonthName(month)}
           </Highlight>
         </Heading>
+        <Button
+          onClick={() => {
+            if (month == 0) {
+              setYear(year - 1);
+              setMonth(11);
+            } else {
+              setMonth(month - 1);
+            }
+          }}
+        />
+        <Button
+          onClick={() => {
+            if (month == 11) {
+              setYear(year + 1);
+              setMonth(0);
+            } else {
+              setMonth(month + 1);
+            }
+          }}
+        />
       </GridItem>
     </Grid>
   );
