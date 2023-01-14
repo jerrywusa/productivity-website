@@ -1,6 +1,5 @@
 import { Text, Button } from "@chakra-ui/react";
-import { useState } from "react";
-import { SquareObject } from "../../types/ComponentTypes";
+import { SquareObject, SquareObjectColor } from "../../types/Types";
 
 type SquareProps = {
   squareObject: SquareObject | null;
@@ -11,22 +10,24 @@ type SquareProps = {
 function Square({ squareObject, dayList, setDayList }: SquareProps) {
   return (
     <Button
-      width={150}
-      height={150}
-      colorScheme={squareObject == null ? "blackAlpha" : squareObject.color}
+      width="100%"
+      height="100%"
+      colorScheme={
+        squareObject == null ? SquareObjectColor.blackAlpha : squareObject.color
+      }
       onClick={() => {
         if (squareObject == null) {
           return;
         }
         switch (squareObject.color) {
-          case "blackAlpha":
-            squareObject.color = "green";
+          case SquareObjectColor.blackAlpha:
+            squareObject.color = SquareObjectColor.green;
             break;
-          case "green":
-            squareObject.color = "red";
+          case SquareObjectColor.green:
+            squareObject.color = SquareObjectColor.red;
             break;
-          case "red":
-            squareObject.color = "blackAlpha";
+          case SquareObjectColor.red:
+            squareObject.color = SquareObjectColor.blackAlpha;
         }
         setDayList(structuredClone(dayList));
       }}

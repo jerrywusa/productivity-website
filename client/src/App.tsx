@@ -1,9 +1,9 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Calendar from "./components/Calendar/Calendar";
 import { ChakraProvider } from "@chakra-ui/react";
-import { SquareObject } from "./types/ComponentTypes";
+import { SquareObject, SquareObjectColor } from "./types/Types";
 import { getDaysInMonth } from "./utils/Utils";
 import { useState } from "react";
+import CalendarPage from "./components/Calendar/CalendarPage";
 
 function createDayList(year: number, month: number) {
   const maxDayInMonth = getDaysInMonth(year, month);
@@ -11,7 +11,7 @@ function createDayList(year: number, month: number) {
   for (let i = 1; i <= maxDayInMonth; i++) {
     dayList.push({
       dayNumber: i,
-      color: "blackAlpha",
+      color: SquareObjectColor.blackAlpha,
     });
   }
   return dayList;
@@ -32,7 +32,7 @@ function App() {
           <Route
             path="/"
             element={
-              <Calendar
+              <CalendarPage
                 year={currYear}
                 month={currMonth}
                 dayList={dayList}

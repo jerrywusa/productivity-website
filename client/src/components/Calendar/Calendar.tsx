@@ -1,7 +1,6 @@
 import Square from "./Square";
-import Flexbox from "flexbox-react";
-import { Card, Text } from "@chakra-ui/react";
-import { SquareObject } from "../../types/ComponentTypes";
+import { Card, Text, Flex } from "@chakra-ui/react";
+import { SquareObject } from "../../types/Types";
 import { getWeekdayNumber, weekdayNames } from "../../utils/Utils";
 import { uid } from "uid";
 
@@ -43,35 +42,36 @@ function Calendar({ year, month, dayList, setDayList }: CalendarProps) {
   let rowList = createRowList(year, month, dayList);
 
   return (
-    <Flexbox flexDirection="column">
-      <Flexbox flexDirection="row">
+    <Flex flexDirection="column" width="100%" height="100%">
+      <Flex flexDirection="row" justifyContent="space-evenly">
         {weekdayNames.map((weekdayName) => (
           <Card
-            width={150}
+            width="100%"
             align="center"
-            margin="2px"
+            marginLeft="2px"
+            marginRight="2px"
             color="black"
             variant="unstyled"
           >
-            <Text>{weekdayName}</Text>
+            <Text>{weekdayName.toUpperCase()}</Text>
           </Card>
         ))}
-      </Flexbox>
+      </Flex>
       {rowList.map((row) => (
-        <Flexbox flexDirection="row">
+        <Flex flexDirection="row" height="100%" justifyContent="space-evenly">
           {row.map((squareObject) => (
-            <Flexbox margin="2px">
+            <Flex margin="2px" justifyContent="space-evenly" width="100%">
               <Square
                 key={uid()}
                 squareObject={squareObject}
                 dayList={dayList}
                 setDayList={setDayList}
               />
-            </Flexbox>
+            </Flex>
           ))}
-        </Flexbox>
+        </Flex>
       ))}
-    </Flexbox>
+    </Flex>
   );
 }
 
