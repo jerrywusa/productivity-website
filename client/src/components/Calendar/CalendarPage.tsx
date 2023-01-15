@@ -1,7 +1,15 @@
 import { CalendarYearMonthColor, SquareObject } from "../../types/Types";
 import Calendar from "./Calendar";
 import { getMonthName } from "../../utils/Utils";
-import { Heading, Highlight, Grid, GridItem, Button } from "@chakra-ui/react";
+import {
+  Heading,
+  Highlight,
+  Grid,
+  GridItem,
+  IconButton,
+  Flex,
+} from "@chakra-ui/react";
+import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 
 const yearMonthColors: Array<CalendarYearMonthColor> = [
   { yearColor: "yellow.100", monthColor: "red.100" },
@@ -52,7 +60,7 @@ function CalendarPage({
           setDayList={setDayList}
         />
       </GridItem>
-      <GridItem bg="gray.300" area="rightPanel" padding="10">
+      <GridItem bg="gray.300" area="rightPanel" padding="5">
         <Heading marginBottom="20px" textAlign="end">
           <Highlight
             query={year.toString()}
@@ -66,39 +74,50 @@ function CalendarPage({
             {year.toString()}
           </Highlight>
         </Heading>
-        <Heading textAlign="end">
-          <Highlight
-            query={getMonthName(month)}
-            styles={{
-              px: "3",
-              py: "2",
-              rounded: "md",
-              bg: yearMonthColors[month].monthColor,
-            }}
-          >
-            {getMonthName(month)}
-          </Highlight>
-        </Heading>
-        <Button
-          onClick={() => {
-            if (month == 0) {
-              setYear(year - 1);
-              setMonth(11);
-            } else {
-              setMonth(month - 1);
-            }
-          }}
-        />
-        <Button
-          onClick={() => {
-            if (month == 11) {
-              setYear(year + 1);
-              setMonth(0);
-            } else {
-              setMonth(month + 1);
-            }
-          }}
-        />
+
+        <Flex justifyContent="space-between">
+          <Flex flexWrap={"nowrap"}>
+            <IconButton
+              variant="ghost"
+              aria-label="goto previous month"
+              icon={<ChevronLeftIcon />}
+              onClick={() => {
+                if (month == 0) {
+                  setYear(year - 1);
+                  setMonth(11);
+                } else {
+                  setMonth(month - 1);
+                }
+              }}
+            />
+            <IconButton
+              variant="ghost"
+              aria-label="goto next month"
+              icon={<ChevronRightIcon />}
+              onClick={() => {
+                if (month == 11) {
+                  setYear(year + 1);
+                  setMonth(0);
+                } else {
+                  setMonth(month + 1);
+                }
+              }}
+            />
+          </Flex>
+          <Heading textAlign="end">
+            <Highlight
+              query={getMonthName(month)}
+              styles={{
+                px: "3",
+                py: "2",
+                rounded: "md",
+                bg: yearMonthColors[month].monthColor,
+              }}
+            >
+              {getMonthName(month)}
+            </Highlight>
+          </Heading>
+        </Flex>
       </GridItem>
     </Grid>
   );
