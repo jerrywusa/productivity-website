@@ -46,7 +46,7 @@ function CalendarPage({
   return (
     <Grid
       templateAreas={`"cal rightPanel"`}
-      gridTemplateColumns={"80% 20%"}
+      gridTemplateColumns={"75% 25%"}
       gridTemplateRows={"100%"}
       h="100vh"
       color="blackAlpha.700"
@@ -76,7 +76,7 @@ function CalendarPage({
         </Heading>
 
         <Flex justifyContent="space-between">
-          <Flex flexWrap={"nowrap"}>
+          <div>
             <IconButton
               variant="ghost"
               aria-label="goto previous month"
@@ -103,7 +103,7 @@ function CalendarPage({
                 }
               }}
             />
-          </Flex>
+          </div>
           <Heading textAlign="end">
             <Highlight
               query={getMonthName(month)}
