@@ -52,17 +52,27 @@ function Calendar({ year, month, dayList, setDayList }: CalendarProps) {
             marginRight="2px"
             color="black"
             variant="unstyled"
+            key={uid()}
           >
             <Text>{weekdayName.toUpperCase()}</Text>
           </Card>
         ))}
       </Flex>
       {rowList.map((row) => (
-        <Flex flexDirection="row" height="100%" justifyContent="space-evenly">
+        <Flex
+          flexDirection="row"
+          height="100%"
+          justifyContent="space-evenly"
+          key={uid()}
+        >
           {row.map((squareObject) => (
-            <Flex margin="2px" justifyContent="space-evenly" width="100%">
+            <Flex
+              margin="2px"
+              justifyContent="space-evenly"
+              width="100%"
+              key={uid()}
+            >
               <Square
-                key={uid()}
                 squareObject={squareObject}
                 dayList={dayList}
                 setDayList={setDayList}

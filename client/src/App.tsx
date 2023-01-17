@@ -4,6 +4,7 @@ import { SquareObject, SquareObjectColor } from "./types/Types";
 import { getDaysInMonth } from "./utils/Utils";
 import { useState } from "react";
 import CalendarPage from "./components/Calendar/CalendarPage";
+import React from "react";
 
 function createDayList(year: number, month: number) {
   const maxDayInMonth = getDaysInMonth(year, month);
@@ -24,6 +25,16 @@ function App() {
   const [dayList, setDayList] = useState<Array<SquareObject>>(
     createDayList(year, month)
   );
+
+  // const [message, setMessage] = useState(null);
+
+  // React.useEffect(() => {
+  //   fetch("http://localhost:3001/api")
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       setMessage(data.message);
+  //     });
+  // }, []);
 
   return (
     <ChakraProvider>
